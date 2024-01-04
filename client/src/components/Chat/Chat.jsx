@@ -19,11 +19,19 @@ export default function Chat({ socket }) {
   }, [socket]);
 
   const handleSubmit = () => {
-    const message = messageRef.current.value.trim();
+    const messageText = messageRef.current.value.trim();
 
-    if (!message) return;
+    if (!messageText) return;
 
-    socket.send(JSON.stringify({ type: 'message', text: message }));
+    const newMessage = {
+      type: 'message',
+      text: messageText,
+      author: 'Você',
+    };
+
+    socket.send(JSON.stringify(newMessage));
+
+    setMessageList((current) => [...current, newMessage]);
 
     clearInput();
     focusInput();
