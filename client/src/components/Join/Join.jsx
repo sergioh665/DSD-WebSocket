@@ -23,7 +23,7 @@ export default function Join({setChatVisibility, setSocket}){
 
     return(
         <div>         
-            <h1>Entrar na conversa</h1>
+            <h1>Entrar no WhatsApp 2.0</h1>
             <input type="text" ref={usernameRef} placeholder='Nome do usuário' onKeyDown={(e)=>getEnterKey(e)} />
             <button id='button' onClick={()=> handleSubmit()}>entrar <IoMdPersonAdd id='icon-entrar'/></button>
         </div>
