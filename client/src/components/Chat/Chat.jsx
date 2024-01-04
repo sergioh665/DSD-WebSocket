@@ -1,4 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
+import { IoSend } from "react-icons/io5";
+import { MdEmojiEmotions } from "react-icons/md";
+
 
 
 export default function Chat({socket}){
@@ -37,15 +40,20 @@ export default function Chat({socket}){
     }
 
     return(
-        <div>
+        <div style={{padding: '10em'}}>
+            <p></p>
+            
             <h1>Envie uma mensagem</h1>
-            {
+            
+                {
                 messageList.map((message, index) =>(
-                    <p key={index}> {message.author}: {message.text}</p>
-                ))
+
+                    <p style={{borderStyle:'solid', borderColor: 'black', borderRadius: '15px', padding: '0.5em'}} key={index}> {message.author}: {message.text}</p>
+
+                ))   
             }
             <input type="text" ref={messageRef} placeholder='Mensagem' onKeyDown={(e)=>getEnterKey(e)} />
-            <button onClick={()=> handleSubmit()}>Enviar</button>
+            <button onClick={()=> handleSubmit()}><IoSend style={{marginLeft: '0.4em', marginRight: '0.3em'}}/></button>
         </div>
     )
 }

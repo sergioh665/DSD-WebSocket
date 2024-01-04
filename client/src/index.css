@@ -33,7 +33,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: #ece5dd;
+  color: #128c7e;
 }
 
 button {
@@ -44,9 +44,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #075e54;
+  background-color: #128c7e;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #ece5dd;
 }
 button:hover {
   border-color: #07c148;

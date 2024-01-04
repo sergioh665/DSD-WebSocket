@@ -1,5 +1,7 @@
 import React, {useRef} from 'react';
 import io from 'socket.io-client'
+import { IoMdPersonAdd } from "react-icons/io";
+
 
 export default function Join({setChatVisibility, setSocket}){
 
@@ -20,10 +22,10 @@ export default function Join({setChatVisibility, setSocket}){
     }
 
     return(
-        <div>
+        <div>         
             <h1>Entrar na conversa</h1>
             <input type="text" ref={usernameRef} placeholder='Nome do usuário' onKeyDown={(e)=>getEnterKey(e)} />
-            <button id='button' onClick={()=> handleSubmit()}>Entrar</button>
+            <button id='button' onClick={()=> handleSubmit()}>entrar <IoMdPersonAdd id='icon-entrar'/></button>
         </div>
     )
 }
