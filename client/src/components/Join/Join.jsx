@@ -5,6 +5,11 @@ export default function Join({setChatVisibility, setSocket}){
 
     const usernameRef = useRef()
 
+    const getEnterKey = (e) => {
+        if(e.key === 'Enter') 
+            handleSubmit()
+    }
+
     const handleSubmit = async () => {
         const username = usernameRef.current.value
         if(!username.trim()) return
@@ -16,9 +21,9 @@ export default function Join({setChatVisibility, setSocket}){
 
     return(
         <div>
-            <h1>Join</h1>
-            <input type="text" ref={usernameRef} placeholder='Nome de usuario' />
-            <button onClick={()=> handleSubmit()}>Entrar</button>
+            <h1>Entrar na conversa</h1>
+            <input type="text" ref={usernameRef} placeholder='Nome do usuário' onKeyDown={(e)=>getEnterKey(e)} />
+            <button id='button' onClick={()=> handleSubmit()}>Entrar</button>
         </div>
     )
 }

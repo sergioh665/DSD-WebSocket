@@ -1,5 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 
+
 export default function Chat({socket}){
 
     const messageRef =useRef()
@@ -19,21 +20,31 @@ export default function Chat({socket}){
 
         socket.emit('message', message)
         clearInput()
+        focusInput()
+    }
+
+    const getEnterKey = (e) => {
+        if(e.key === 'Enter') 
+            handleSubmit()
     }
 
     const clearInput = () =>{
         messageRef.current.value = ''
     }
 
+    const focusInput = () => {
+        messageRef.current.focus()
+    }
+
     return(
         <div>
-            <h1>Chat</h1>
+            <h1>Envie uma mensagem</h1>
             {
                 messageList.map((message, index) =>(
                     <p key={index}> {message.author}: {message.text}</p>
                 ))
             }
-            <input type="text" ref={messageRef} placeholder='Mensagem' />
+            <input type="text" ref={messageRef} placeholder='Mensagem' onKeyDown={(e)=>getEnterKey(e)} />
             <button onClick={()=> handleSubmit()}>Enviar</button>
         </div>
     )
