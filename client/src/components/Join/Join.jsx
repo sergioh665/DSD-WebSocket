@@ -13,7 +13,7 @@ export default function Join({ setChatVisibility, setSocket }) {
 
     if (!username) return;
 
-    const socket = new WebSocket('ws://192.168.0.104:3001');
+    const socket = new WebSocket('ws://localhost:3001');
 
     socket.addEventListener('open', (event) => {
       socket.send(JSON.stringify({ type: 'set_username', username }));
