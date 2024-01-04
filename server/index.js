@@ -1,27 +1,44 @@
-const app = require('express')()
-const server = require('http').createServer(app)
-const io = require('socket.io')(server, {cors:{origin: 'http://localhost:5173'}})
+const WebSocket = require('ws');
+const http = require('http');
 
-const PORT = 3001
+const server = http.createServer();
+const wss = new WebSocket.Server({ noServer: true });
 
-io.on('connection', socket => {
-    console.log('usuario conectado', socket.id);
+const PORT = 3001;
 
-    socket.on('disconnect', reason => {
-        console.log('usuario desconectado', socket.id)
-    })
+wss.on('connection', (ws) => {
+  console.log('Usuário conectado', ws._socket.remoteAddress);
 
-    socket.on('set_username', username => {
-        socket.data.username = username
-    })
+  ws.on('close', (code, reason) => {
+    console.log('Usuário desconectado', ws._socket.remoteAddress);
+  });
 
-    socket.on('message', text => {
-        io.emit('receiv_message', {
-            text,
-            authorId: socket.id,
-            author: socket.data.username
-        })
-    })
-})
+  ws.on('message', (data) => {
+    const message = JSON.parse(data);
 
-server.listen(PORT, () => console.log('server iniciado...'))
+    if (message.type === 'set_username') {
+      ws.username = message.username;
+    } else if (message.type === 'message') {
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(
+            JSON.stringify({
+              type: 'receiv_message',
+              text: message.text,
+              authorId: ws._socket.remoteAddress,
+              author: ws.username,
+            })
+          );
+        }
+      });
+    }
+  });
+});
+
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (ws) => {
+    wss.emit('connection', ws, request);
+  });
+});
+
+server.listen(PORT, () => console.log('Servidor WebSocket iniciado'));
